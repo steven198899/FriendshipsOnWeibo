@@ -70,9 +70,14 @@ def error():
 @app.route('/searchResult')
 @app.route('/searchResult.html')
 def searchResult(searchName):
-	searchName=searchName
-	flash('Searching: '+ searchName)
-	return render_template('searchResult.html', title='searchResult')
+	screen_name="Steven"
+	img_logo="http://tp3.sinaimg.cn/2199734770/180/40018321658/1"
+	friends_count=163
+	followers_count=877
+	statuses_count=999
+	# searchName=searchName
+	# flash('Searching: '+ searchName)
+	return render_template('searchResult.html', title='searchResult', img_logo=img_logo, screen_name=screen_name, friends_count=friends_count, followers_count=followers_count, statuses_count=statuses_count)
 
 @app.route('/map')
 @app.route('/map.html')

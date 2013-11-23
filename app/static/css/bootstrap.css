@@ -6191,6 +6191,9 @@ body.modal-open,
   }
 }
 
+.clearfix {
+  *zoom: 1;
+}
 .clearfix:before,
 .clearfix:after {
   display: table;
@@ -6906,14 +6909,56 @@ td.visible-print {
 .offset1 {
   margin-left: 80px;
 }
+
+
 div.recommend {
   padding-left: 30px;
 }
 .rightborder {
   border-right: 1px solid #ddd;
 }
+
+.topborder {
+  border-top: 1px solid #ddd;
+}
+
 body {
   background : url('/static/img/body_bg.jpg');
-
-
 }
+
+div.mylogo {
+  padding-left: 10px;
+}
+
+div.big {
+  display: block;
+  float: left;
+  width: 100px;
+  height: 100px;
+}
+
+img.big {
+  width: 80px;
+  height: 80px;
+}
+
+div.mylogo div.info {
+  line-height: 28px;
+}
+
+div.info {
+  font-size: 14px;
+}
+
+div.mylogo div.name {
+  padding-left: 10px;
+  font-size: 18px;
+}
+
+img.small {
+  width: 50px;
+  height: 50px;
+}
+
+
+
