@@ -1,0 +1,60 @@
+{% extends "base.html" %} {% block content %}
+<ul class="nav nav-tabs">
+    <li class="active">
+        <a href="#">
+                Description
+            </a>
+    </li>
+    <li>
+        <a href="./team.html">
+                Team
+            </a>
+    </li>
+</ul>
+
+<div class="jumbotron jumbotron2">
+    <div class="row">
+        <div>
+            <h1>
+                Description:
+            </h1>
+
+            <p class="lead">
+                Weibo, the Chinese Twitter, has been a very popular social network platform in China even the world. The number of the users in Weibo has been more than 500 millions. Since each user may have lots of followers and lots of users that he or she is following, the relationship among Weibo users is much more complex. Friend means that two users are mutual followed.
+            </p>
+            <p>
+                So, in our project, the following functions are contained.
+            </p>
+            <p>
+                We will show the friendship network of certain user on Google Map. A node represents a user, and the line between two nodes means they are friend. We plan to show results of 2 levels friendships. For example, if each user has 200 friends averagely, then for 2 levels, it will become 200*200 = 40,000 nodes. Besides, it will allow users to type in any Weibo userId to start query. Also, users can travel through the friendship network by clicking on any node.
+            </p>
+            <p>
+                The results may be filtrated by certain location information such as city or province/state according to requirement. The location can be directly selected from the map or chosen from drop&#45;down list. If possible, the query condition may contain distance information such as showing the friends among 50 miles.
+            </p>
+            <br />
+            <p>
+                References:
+            </p>
+
+            <a href="http://open.weibo.com/wiki/API%E6%96%87%E6%A1%A3_V2/en ">
+                    Weibo Api
+                </a>
+
+            <br />
+
+            <a href="https://developers.google.com/maps/documentation/">
+                    Google Maps Api
+                </a>
+        </div>
+        <div class="col-md-9">
+        </div>
+        <div class="col-md-2">
+            <p>
+                <a class="btn btn-outline-inverse btn-lg" href="./index.html">
+                    Return
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

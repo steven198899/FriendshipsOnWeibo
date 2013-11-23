@@ -1,0 +1,92 @@
+{% extends "base.html" %} {% block content %}
+<div class="jumbotron">
+    <!--  <div class="row" style="padding-top:30px">
+        <div style="padding-top:30px">
+            <h2 align="center">
+                Friendships of Weibo on Map
+            </h2> -->
+
+    <!--  <p class="lead">
+                Weibo, the Chinese Twitter, has been a very popular social network platform in China even the world. The number of the users in Weibo has been more than 500 millions. Since each user may have lots of followers and lots of users that he or she is following, the relationship among Weibo users is much more complex. Friend means that two users are mutual followed.
+            </p>
+
+            <div class="col-md-9">
+                <p>
+                    Chun Tung Wong (chuntung@buffalo.edu)
+                    <br />Shiqin Ding (shiqindi@buffalo.edu)
+                    <br />Suqiang Chen (suqiangc@buffalo.edu).
+                </p>
+            </div>
+            <div class="col-md-3">
+                <p>
+                    <a class="btn btn-outline-inverse btn-lg" href="./description.html">
+                            Learn more
+                        </a>
+                </p>
+            </div> -->
+
+    <!-- </div> -->
+
+
+    <!-- <div class="row">
+        <div class="col-md-3 " align="center">
+            <div class="rightborder">
+            </div>
+        </div> -->
+        <div class="col-md-12" align="center">
+            <h2>Friendships of Weibo on Map</h2>
+            <form name="search" action="" method="post" style="padding-top:30px">
+                {{form.hidden_tag()}}
+                <div class="search_form_inside">
+                    <p>
+                        {{form.searchName(size=46)}} {% for error in form.errors.searchName %}
+                        <br/>
+                        <span style="color: red;">[{{error}}]</span>
+                        {% endfor %}
+                        <br>
+                    </p>
+
+                    <input class="btn btn-primary btn-default login" type="submit" value="Search" />
+                </div>
+            </form>
+        </div>
+  <!--   </div class="row"> -->
+
+    <!-- <div class="col-md-3">
+        </div> -->
+    <!--     <form name="search" action="" method="post" style="padding-top:30px">
+        {{form.hidden_tag()}}
+        <p align="center">
+            {{form.searchName(size=46)}} {% for error in form.errors.searchName %}
+            <span style="color: red;">[{{error}}]</span>
+            {% endfor %}
+            <br>
+        </p>
+        <input class="btn btn-primary btn-default login" type="submit" value="Search" />
+
+    </form> -->
+
+    <!--  <form name="search" action="" method="post" >
+            {{form.hidden_tag()}}
+            <div class="col-md-6" horizontal="center">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <p>
+                            {{form.searchName(size=46)}} {% for error in form.errors.searchName %}
+                            <span style="color: red;">[{{error}}]</span>
+                            {% endfor %}
+                            <br>
+                        </p>
+                        <input class="btn btn-primary btn-default login" type="submit" value="Search" />
+                    </div>
+                </div>
+            </div>
+        </form> -->
+    <!-- </div> -->
+    <!--     <div>
+        <br>
+        <br>
+        <br>
+    </div> -->
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        {{title}} - Friendships of Weibo
+    </title>
+
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/css/bootstrap-theme.css" rel="stylesheet">
+    <script src="/static/js/bootstrap.js">
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </meta>
+    </link>
+    </link>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="./index.html">
+                        Friendships of Weibo on Map
+                    </a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <hr>{% with messages = get_flashed_messages() %} {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %} {% endwith %} {% block content %}{% endblock %}
+    </div>
+</body>
+
+</html>
