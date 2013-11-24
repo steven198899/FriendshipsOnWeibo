@@ -19,7 +19,8 @@ CALLBACK_URL = 'http://127.0.0.1:5000/index'
 def index():
   # if cancel the authorized, redirect to ./login
   if request.args.get('error') == 'access_denied':
-    return redirect('/login')
+    return redirect(url_for('login'))
+
   if 'access_token' in session:
     client = _create_client()
     # code = request.args.get('code')
@@ -93,7 +94,8 @@ def error():
 @app.route('/searchResult.html')
 def searchResult(searchName):
   screen_name="Steven"
-  img_logo="http://tp3.sinaimg.cn/2199734770/180/40018321658/1"
+  #img_logo="http://tp3.sinaimg.cn/2199734770/180/40018321658/1"
+  img_logo="https://pbs.twimg.com/profile_images/1799277908/7efdd96e-252e-4195-9e61-f1d8ca595630_bigger.jpg"
   friends_count=163
   followers_count=877
   statuses_count=999

@@ -6962,4 +6962,83 @@ img.small {
 }
 
 
+/*
+ * By Chao
+ */
+.page-container {
+  width: 920px;
+  height: 640px;
+  padding: 20px;
+  background: url("https://abs.twimg.com/a/1385011337/t1/img/wash-white-30.png") repeat scroll 0% 0% transparent;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.dashboard {
+  float: left;
+  width: 280px;
+}
+
+.module {
+  text-shadow: 0px 1px 0px rgb(255, 255, 255);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  line-height: 16px;
+  border-radius: 6px;
+  background-clip: padding-box;
+  background-color: rgb(249, 249, 249);
+}
+
+.content-main {
+  float: right;
+  text-align: center;
+  width: 574px;
+}
+
+.profile-container {
+  padding: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.fullname {
+  padding-left: 18px;
+  margin-top: 0px;
+  font-size: 30px;
+}
+
+.stats-container {
+  margin: 0px;
+  /*padding: 16px;*/
+  padding-top: 16px;
+  padding-bottom: 16px;
+  font-size: 16px;
+}
+
+.stats-count {
+  font-style: bold;
+  margin: 0px;
+  padding: 0px;
+}
+
+.stats-txt {
+  margin: 0px;
+  padding: 0px;
+}
+
+.stats-item1 {
+  border-right: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.stats-item2 {
+  border-right: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.avatar {
+  border-radius: 5px;
+}
+
+.search-bar {
+  padding-bottom: 20px;
+  padding-top: 10px;
+  display: inline-block;
+}
 
