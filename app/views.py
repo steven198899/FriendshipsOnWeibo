@@ -22,7 +22,10 @@ def index():
 	if code:
 		if 'access_token' not in session:
 			r = client.request_access_token(code)
+			expires_in = r.expires_in
 			session['access_token'] = r.access_token
+			client.set_access_token(session['access_token'], expires_in)
+			print client.statuses.user_timeline.get()
 
 	if 'access_token' in session:
 		form=SearchForm()
@@ -75,11 +78,17 @@ def searchResult(searchName):
 	friends_count=163
 	followers_count=877
 	statuses_count=999
+	form=SearchForm()
 	# searchName=searchName
 	# flash('Searching: '+ searchName)
-	return render_template('searchResult.html', title='searchResult', img_logo=img_logo, screen_name=screen_name, friends_count=friends_count, followers_count=followers_count, statuses_count=statuses_count)
+	return render_template('searchResult.html', title=screen_name, img_logo=img_logo, 
+		screen_name=screen_name, friends_count=friends_count, followers_count=followers_count, 
+		statuses_count=statuses_count, form=form)
 
 @app.route('/map')
 @app.route('/map.html')
 def getMap():
 	return render_template('/map.html')
+
+
+

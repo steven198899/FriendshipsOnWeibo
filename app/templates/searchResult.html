@@ -23,24 +23,24 @@
             <div class="name">{{screen_name}}<i class="v-220"></i>
             </div>
         </div>
-        <div class="rightborder" style="height: 20px"></div>
+        <div class="rightborder" style="height: 30px"></div>
     </div>
     <div class="col-md-9">
-        <div style="padding-left:30px">
-            <!-- <div id="div-count" class="count">还可以输入
-                <span id="span-post-count">140</span>字</div>
-            <div class="shadow">有什么新鲜事想告诉大家?</div>
-            <div>
-                <form id="form-post" name="form-post" style="margin:0px; padding:0px;" method="post" action="/any">
-                    <textarea id="text-post" name="status" style="width:640px;height:40px;resize:none;"></textarea>
-                </form>
-            </div>
-            <div>
-                <button id="btn-post" class="btn">发布</button>
-                <span id="span-posting" class="loading hide">正在发布……</span>
-                <span id="span-post-ok" class="hide">发布成功！</span>
-                <span id="span-post-failed" class="hide">发布失败，请重试！</span>
-            </div> -->
+        <div align="center">
+            <h3>Please input the user_id you want to search!</h3>
+            <form name="search" action="" method="post" style="padding-top:30px">
+                {{form.hidden_tag()}}
+                <div class="search_form_inside">
+                    <p>
+                        {{form.searchName(size=46)}}
+                        <input class="btn btn-primary btn-default " type="submit" value="Search" />{% for error in form.errors.searchName %}
+                        <br/>
+                        <span style="color: red;">[{{error}}]</span>
+                        {% endfor %}
+                        <!-- <br> -->
+                    </p>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -48,10 +48,21 @@
     <div class="col-md-3 ">
         <div class="rightborder" style="height: 30px"></div>
     </div>
+    
     <div class="col-md-9">
-        <div class="rightborder" style="height: 30px"></div>
+        <div style="height: 30px"></div>
         <iframe height="400px" width="100%" frameborder="0" scrolling="no" src="./map.html">
         </iframe>
+    </div>
+</div>
+<div class="row" style="background-color:#fff">
+    <div class="col-md-3 ">
+        <div class="rightborder" style="height: 30px"></div>
+    </div>
+</div>
+<div class="row topborder" style="background-color:#fff">
+    <div class="col-md-3 ">
+        <div class="rightborder" style="height: 30px"></div>
     </div>
 </div>
 

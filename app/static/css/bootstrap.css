@@ -6816,11 +6816,12 @@ td.visible-print {
   background-color: #FFFFFF;
 }
 
-.row2 {
+/*.row {
   margin-left: 0px;
+  margin-right: 0px;
   *zoom: 1;
 }
-.row2:before,
+*/.row2:before,
 .row2:after {
   display: table;
   content: "";
@@ -6927,7 +6928,7 @@ body {
 }
 
 div.mylogo {
-  padding-left: 10px;
+  padding-left: 0px;
 }
 
 div.big {
