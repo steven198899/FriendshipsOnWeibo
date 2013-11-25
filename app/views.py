@@ -81,23 +81,6 @@ def signout():
 def error():
   return render_template('error.html')
 
-#@app.route('/searchResult')
-#@app.route('/searchResult.html')
-#def searchResult():
-  #screen_name="Steven"
-  ##img_logo="http://tp3.sinaimg.cn/2199734770/180/40018321658/1"
-  #img_logo="https://pbs.twimg.com/profile_images/1799277908/7efdd96e-252e-4195-9e61-f1d8ca595630_bigger.jpg"
-  #friends_count=163
-  #followers_count=877
-  #statuses_count=999
-  #form=SearchForm()
-  #return render_template('searchResult.html', title=screen_name, img_logo=img_logo,
-    #screen_name=screen_name, friends_count=friends_count, followers_count=followers_count,
-    #statuses_count=statuses_count, form=form)
-
-def search():
-  pass
-
 @app.route('/map')
 @app.route('/map.html')
 def getMap():

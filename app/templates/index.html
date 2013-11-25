@@ -1,162 +1,130 @@
 {% extends "base.html" %}
+{% block map_script %}
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJwmHpMg1YXC1LFIS-UiJiyeb1m2n8UWk&sensor=false"></script>
+<script type="text/javascript">
+var shanghai = new google.maps.LatLng(31.20042, 121.47370);
+var locations = [
+  ['我家', 31.15439, 121.45721],
+  ['徐家汇', 31.19250, 121.44000],
+  ['南京路', 31.23576, 121.48023],
+  ['东方明珠', 31.23729, 121.50063]
+];
+var marker, i;
+var map;
+var infoWindow = new google.maps.InfoWindow({
+    width: 200
+    });
+
+function initialize() {
+  var mapOptions = {
+    zoom: 12,
+    center: shanghai
+  };
+
+  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+  for (i = 0; i < locations.length; i++) {
+    marker = new google.maps.Marker({
+        map: map,
+        draggable: false,
+        animation: google.maps.Animation.DROP,
+        position: new google.maps.LatLng(locations[i][1], locations[i][2])
+        });
+
+    google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infoWindow.setContent(locations[i][0]);
+          infoWindow.open(map, marker);
+        }
+      })(marker, i));
+  }
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="page-container">
-<div class="dashboard">
-  <div class="profile module">
-    <div class="row profile-container">
-      <div class="col-md-6">
-        <img class="avatar" src={{users['avatar_large']}}>
-      </div>
-       <div class="col-md-6">
-        <div  class="row" style="height: 45px">
+  <div class="dashboard">
+    <div class="profile module">
+      <div class="row profile-container">
+        <div class="col-md-6">
+          <img class="avatar" src={{users['avatar_large']}}>
         </div>
-        <div class="row" >
-          <b class="fullname" >{{users['screen_name']}}</b>
+        <div class="col-md-6">
+          <div  class="row" style="height: 45px">
+          </div>
+          <div class="row" >
+            <b class="fullname" >{{users['screen_name']}}</b>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row stats-container topborder">
+      <div class="row stats-container topborder">
         <div class="col-md-4 stats-item1">
           <strong class="row stats-count">{{users['statuses_count']}}</strong>
           <div class="row stats-txt">Tweets</div>
         </div>
         <div class="col-md-4 stats-item2">
           <strong class="row stats-count">{{users['friends_count']}}</strong>
-          <div class="row stats-txt">Followers</div>
+          <div class="row stats-txt">Following</div>
         </div>
         <div class="col-md-4 stats-item3">
           <strong class="row stats-count">{{users['followers_count']}}</strong>
-          <div class="row stats-txt">Following</div>
+          <div class="row stats-txt">Followers</div>
         </div>
+      </div>
+    </div>
+    <div class="module">
+      <div class="row2" style="height: 30px">
+        <div class="col-md-6 " style="height: 30px"></div>
+        <div class="col-md-3 " >
+          <div class="row" style="height: 7px"></div>
+          <a href=" " >prev</a>
+        </div>
+        <div class="col-md-3">
+          <div class="row" style="height: 7px"></div>
+          <a href=" " >next</a>
+        </div>
+      </div>
+      <div  class="row2">
+        {% for friend in friends %}
+        <div class="row friend-container topborder">
+          <div class="col-md-5 rightborder"  align="center">
+            <img class="small_logo" src={{friend['profile_image_url']}} >
+          </div>
+          <div class="col-md-7" >
+            <div class="row" style="height: 9px"></div>
+            <a href=" " target="_blank">
+              <b>{{friend['name']}} </b>
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
     </div>
   </div>
-  <div class="module">
-    <div class="row2" style="height: 30px">
-      <div class="col-md-6 " style="height: 30px"></div>
-      <div class="col-md-3 " >
-        <div class="row" style="height: 7px"></div>
-        <a href=" " >prev</a>
-      </div>
-      <div class="col-md-3">
-        <div class="row" style="height: 7px"></div>
-        <a href=" " >next</a>
-      </div>
-    </div>
-    <div  class="row2">
-      {% for friend in friends %}
-      <div class="row friend-container topborder">
-        <div class="col-md-5 rightborder"  align="center">
-           <img class="small_logo" src={{friend['profile_image_url']}} >
-        </div>
-        <div class="col-md-7" >
-          <div class="row" style="height: 9px"></div>
-          <a href=" " target="_blank">
-            <b>{{friend['name']}} </b>
-          </a>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</div>
 
-
-<div class="content-main module">
-  <div class="search-bar">
-    <h3 class="search-form">Please input the user_id you want to search!</h3>
-    <form class="search-form" name="search" action="" method="post" style="padding-top:30px">
-    {{form.hidden_tag()}}
-      <div class="search_form_inside">
-        <p>
+  <div class="content-main module">
+    <div class="search-bar">
+      <h3 class="search-form">Please input the user_id you want to search!</h3>
+      <form class="search-form" name="search" action="" method="post" style="padding-top:30px">
+        {{form.hidden_tag()}}
+        <div class="search_form_inside">
+          <p>
           {{form.searchName(size=46)}}
           <input class="btn btn-primary btn-default " type="submit" value="Search" />
           {% for error in form.errors.searchName %}
-            <br/>
-            <span style="color: red;">[{{error}}]</span>
+          <br/>
+          <span style="color: red;">[{{error}}]</span>
           {% endfor %}
-        </p>
-      </div>
-    </form>
+          </p>
+        </div>
+      </form>
+    </div>
+
+    <div class="map-content topborder" id="map-canvas"></div>
+    <div class="topborder" style="height: 30px"></div>
   </div>
-
-
-  <div class="map-content topborder">
-    <iframe height="400px" width="100%" frameborder="0" scrolling="no" src="./map.html"></iframe>
-  </div>
-  <div  class="topborder" style="height: 30px"></div>
 </div>
-</div>
-
-            <!--<div class="row" style="background-color:#fff">-->
-              <!--<div class="col-md-3">-->
-                <!--<div class="rightborder" style="height: 30px"></div>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="row" style="background-color:#fff">-->
-              <!--<div class="col-md-3">-->
-                <!--<div class="rightborder mylogo">-->
-                  <!--<div class="big">-->
-                    <!--<img class="big" src={{img_logo}}>-->
-                  <!--</div>-->
-                  <!--<div class="info">Following:-->
-                    <!--<span>{{friends_count}}</span>-->
-                  <!--</div>-->
-                  <!--<div class="info">Followers:-->
-                    <!--<span>{{followers_count}}</span>-->
-                  <!--</div>-->
-                  <!--<div class="info">Statuses :-->
-                    <!--<span>{{statuses_count}}</span>-->
-                  <!--</div>-->
-                  <!--<div class="clearfix"></div>-->
-                  <!--<div class="name">{{screen_name}}<i class="v-220"></i>-->
-                  <!--</div>-->
-                <!--</div>-->
-                <!--<div class="rightborder" style="height: 30px"></div>-->
-              <!--</div>-->
-              <!--<div class="col-md-9">-->
-                <!--<div align="center">-->
-                  <!--<h3>Please input the user_id you want to search!</h3>-->
-                  <!--<form name="search" action="" method="post" style="padding-top:30px">-->
-                    <!--{{form.hidden_tag()}}-->
-                    <!--<div class="search_form_inside">-->
-                      <!--<p>-->
-                      <!--{{form.searchName(size=46)}}-->
-                      <!--<input class="btn btn-primary btn-default " type="submit" value="Search" />{% for error in form.errors.searchName %}-->
-                      <!--<br/>-->
-                      <!--<span style="color: red;">[{{error}}]</span>-->
-                      <!--{% endfor %}-->
-                      <!--[> <br> <]-->
-                      <!--</p>-->
-                    <!--</div>-->
-                  <!--</form>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="row topborder" style="background-color:#fff">-->
-              <!--<div class="col-md-3 ">-->
-                <!--<div class="rightborder" style="height: 30px"></div>-->
-              <!--</div>-->
-
-              <!--<div class="col-md-9">-->
-                <!--<div style="height: 30px"></div>-->
-                <!--<iframe height="400px" width="100%" frameborder="0" scrolling="no" src="./map.html">-->
-                <!--</iframe>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="row" style="background-color:#fff">-->
-              <!--<div class="col-md-3 ">-->
-                <!--<div class="rightborder" style="height: 30px"></div>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="row topborder" style="background-color:#fff">-->
-              <!--<div class="col-md-3 ">-->
-                <!--<div class="rightborder" style="height: 30px"></div>-->
-              <!--</div>-->
-            <!--</div>-->
-
-
-            <!-- <div class="row">
-    <iframe height="400px" width="100%" frameborder="0" scrolling="no" src="./map.html">
-    </iframe>
-</div> -->
 {% endblock %}
