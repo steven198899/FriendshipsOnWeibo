@@ -6920,7 +6920,7 @@ div.recommend {
 }
 
 .topborder {
-  border-top: 1px solid #ddd;
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 body {
@@ -6986,6 +6986,7 @@ img.small {
   border-radius: 6px;
   background-clip: padding-box;
   background-color: rgb(249, 249, 249);
+  margin-bottom: 20px;
 }
 
 .content-main {
@@ -6996,13 +6997,13 @@ img.small {
 
 .profile-container {
   padding: 16px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  /*border-bottom: 1px solid rgba(0, 0, 0, 0.3);*/
 }
 
 .fullname {
-  padding-left: 18px;
-  margin-top: 0px;
-  font-size: 30px;
+  /*padding-left: 18px;
+  margin-top: 0px;*/
+  font-size: 20px;
 }
 
 .stats-container {
@@ -7034,7 +7035,24 @@ img.small {
 
 .avatar {
   border-radius: 5px;
+  width: 100px; 
+  height: 100px;
 }
+.small_logo{
+  border-radius: 2px;
+  /*text-align: center;*/
+  width: 30; 
+  height: 30px;
+}
+
+.friend-container {
+  margin: 0px;
+  /*padding: 16px;*/
+  padding-top: 2px;
+  padding-bottom: 2px;
+  font-size: 16px;
+}
+
 
 .search-bar {
   padding-bottom: 20px;

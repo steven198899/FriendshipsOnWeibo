@@ -1,20 +1,125 @@
-{% extends "base.html" %} {% block content %}
-<div class="jumbotron">
-  <div class="col-md-12" align="center">
-    <h2>Friendships of Weibo on Map</h2>
-    <form name="search" action="" method="post" style="padding-top:30px">
-      {{form.hidden_tag()}}
+{% extends "base.html" %}
+{% block content %}
+<div class="page-container">
+<div class="dashboard module">
+  <div class="profile">
+    <div class="profile-container">
+      <img class="avatar" src={{img_logo}}>
+      <b class="fullname">{{screen_name}}</b>
+    </div>
+    <div class="row stats-container">
+        <div class="col-md-4 stats-item1">
+          <strong class="row stats-count">{{statuses_count}}</strong>
+          <div class="row stats-txt">Tweets</div>
+        </div>
+        <div class="col-md-4 stats-item2">
+          <strong class="row stats-count">{{friends_count}}</strong>
+          <div class="row stats-txt">Followers</div>
+        </div>
+        <div class="col-md-4 stats-item3">
+          <strong class="row stats-count">{{followers_count}}</strong>
+          <div class="row stats-txt">Following</div>
+        </div>
+    </div>
+  </div>
+  <div class="friends module">
+  </div>
+</div>
+
+<div class="content-main module">
+  <div class="search-bar">
+    <h3 class="search-form">Please input the user_id you want to search!</h3>
+    <form class="search-form" name="search" action="" method="post" style="padding-top:30px">
+    {{form.hidden_tag()}}
       <div class="search_form_inside">
         <p>
-        {{form.searchName(size=46)}} {% for error in form.errors.searchName %}
-        <br/>
-        <span style="color: red;">[{{error}}]</span>
-        {% endfor %}
-        <br>
+          {{form.searchName(size=46)}}
+          <input class="btn btn-primary btn-default " type="submit" value="Search" />
+          {% for error in form.errors.searchName %}
+            <br/>
+            <span style="color: red;">[{{error}}]</span>
+          {% endfor %}
         </p>
-        <input class="btn btn-primary btn-default login" type="submit" value="Search" />
       </div>
     </form>
   </div>
+
+  <div class="map-content">
+    <iframe height="400px" width="100%" frameborder="0" scrolling="no" src="./map.html"></iframe>
+  </div>
 </div>
+</div>
+
+            <!--<div class="row" style="background-color:#fff">-->
+              <!--<div class="col-md-3">-->
+                <!--<div class="rightborder" style="height: 30px"></div>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row" style="background-color:#fff">-->
+              <!--<div class="col-md-3">-->
+                <!--<div class="rightborder mylogo">-->
+                  <!--<div class="big">-->
+                    <!--<img class="big" src={{img_logo}}>-->
+                  <!--</div>-->
+                  <!--<div class="info">Following:-->
+                    <!--<span>{{friends_count}}</span>-->
+                  <!--</div>-->
+                  <!--<div class="info">Followers:-->
+                    <!--<span>{{followers_count}}</span>-->
+                  <!--</div>-->
+                  <!--<div class="info">Statuses :-->
+                    <!--<span>{{statuses_count}}</span>-->
+                  <!--</div>-->
+                  <!--<div class="clearfix"></div>-->
+                  <!--<div class="name">{{screen_name}}<i class="v-220"></i>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="rightborder" style="height: 30px"></div>-->
+              <!--</div>-->
+              <!--<div class="col-md-9">-->
+                <!--<div align="center">-->
+                  <!--<h3>Please input the user_id you want to search!</h3>-->
+                  <!--<form name="search" action="" method="post" style="padding-top:30px">-->
+                    <!--{{form.hidden_tag()}}-->
+                    <!--<div class="search_form_inside">-->
+                      <!--<p>-->
+                      <!--{{form.searchName(size=46)}}-->
+                      <!--<input class="btn btn-primary btn-default " type="submit" value="Search" />{% for error in form.errors.searchName %}-->
+                      <!--<br/>-->
+                      <!--<span style="color: red;">[{{error}}]</span>-->
+                      <!--{% endfor %}-->
+                      <!--[> <br> <]-->
+                      <!--</p>-->
+                    <!--</div>-->
+                  <!--</form>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row topborder" style="background-color:#fff">-->
+              <!--<div class="col-md-3 ">-->
+                <!--<div class="rightborder" style="height: 30px"></div>-->
+              <!--</div>-->
+
+              <!--<div class="col-md-9">-->
+                <!--<div style="height: 30px"></div>-->
+                <!--<iframe height="400px" width="100%" frameborder="0" scrolling="no" src="./map.html">-->
+                <!--</iframe>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row" style="background-color:#fff">-->
+              <!--<div class="col-md-3 ">-->
+                <!--<div class="rightborder" style="height: 30px"></div>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row topborder" style="background-color:#fff">-->
+              <!--<div class="col-md-3 ">-->
+                <!--<div class="rightborder" style="height: 30px"></div>-->
+              <!--</div>-->
+            <!--</div>-->
+
+
+            <!-- <div class="row">
+    <iframe height="400px" width="100%" frameborder="0" scrolling="no" src="./map.html">
+    </iframe>
+</div> -->
 {% endblock %}

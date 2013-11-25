@@ -1,3 +1,4 @@
+import json
 from app import app
 from flask import render_template, flash, redirect, request, session, g, url_for, make_response
 from forms import SearchForm
@@ -21,22 +22,32 @@ def index():
     return redirect(url_for('login'))
 
   if 'access_token' in session:
+    client = _create_client()
+    client.set_access_token(session['access_token'], session['expires_in'])
+    users = client.users.show.get(uid="2199734770")
+    json_users = json.dumps(users)
+    dict_users = json.loads(json_users)
+    friends = client.friendships.friends.get(uid="2199734770", count=10)
+    dict_friends=json.loads(json.dumps(friends))
+
     form = SearchForm()
     if form.validate_on_submit():
       return searchResult(form.searchName.data)
-    return render_template('index.html', title='Home', form=form)
+    # return render_template('index.html', title='Home', form=form)
+    return render_template('searchResult.html', title="Index", users=dict_users, friends=dict_friends['users'], form=form)
   else:
     code = request.args.get('code')
     if code:
-      client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL)
+      client = _create_client()
       r = client.request_access_token(code)
       client.set_access_token(r.access_token, r.expires_in)
-      g.client = client
+      session['expires_in']=r.expires_in
       session['access_token'] = r.access_token
       form = SearchForm()
       return render_template('index.html', title='Home', form=form)
     else:
       return redirect(url_for('login'))
+
 
 @app.route('/description')
 @app.route('/description.html')
@@ -55,7 +66,7 @@ def login():
 
 @app.route('/signin')
 def signin():
-  client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL)
+  client = _create_client()
   url = client.get_authorize_url()
   return redirect(url)
 
@@ -82,8 +93,8 @@ def searchResult(searchName):
   # searchName=searchName
   # flash('Searching: '+ searchName)
   return render_template('searchResult.html', title=screen_name, img_logo=img_logo,
-      screen_name=screen_name, friends_count=friends_count, followers_count=followers_count,
-      statuses_count=statuses_count, form=form)
+    screen_name=screen_name, friends_count=friends_count, followers_count=followers_count,
+    statuses_count=statuses_count, form=form)
 
 @app.route('/map')
 @app.route('/map.html')
@@ -98,3 +109,6 @@ def test():
   else:
     print 'shit!!!'
     return 'holy shit'
+
+def _create_client():
+  return APIClient(APP_KEY, APP_SECRET, CALLBACK_URL)
