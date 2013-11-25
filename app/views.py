@@ -23,27 +23,18 @@ def index():
 
   if 'access_token' in session:
     client = _create_client()
-    # code = request.args.get('code')
-    # r = client.request_access_token(session['code'])
     client.set_access_token(session['access_token'], session['expires_in'])
-    get_results = client.users.show.get(uid="2199734770")
-    print "************the type of get_results is : "
-    print type(get_results)
-    json_obj = json.dumps(get_results)
-    dict_obj = json.loads(json_obj)
-    print type(dict_obj)
-    print "======================================================================"
-    print dict_obj
-    print "======================================================================"
-    print json_obj
-    print "**********************************************************************"
-    id=dict_obj['id']
-    print id
+    users = client.users.show.get(uid="2199734770")
+    json_users = json.dumps(users)
+    dict_users = json.loads(json_users)
+    friends = client.friendships.friends.get(uid="2199734770", count=10)
+    dict_friends=json.loads(json.dumps(friends))
 
     form = SearchForm()
     if form.validate_on_submit():
       return searchResult(form.searchName.data)
-    return render_template('index.html', title='Home', form=form)
+    # return render_template('index.html', title='Home', form=form)
+    return render_template('searchResult.html', title="Index", users=dict_users, friends=dict_friends['users'], form=form)
   else:
     code = request.args.get('code')
     if code:
@@ -51,7 +42,6 @@ def index():
       r = client.request_access_token(code)
       client.set_access_token(r.access_token, r.expires_in)
       session['expires_in']=r.expires_in
-      g.client = client
       session['access_token'] = r.access_token
       form = SearchForm()
       return render_template('index.html', title='Home', form=form)
