@@ -35,15 +35,33 @@ def before_request():
 @app.route('/index.html', methods = ['GET', 'POST'])
 def index():
   # if cancel the authorized, redirect to /index
-  # if session don't have access_token, that means you haven't logged in, redirect to /index
+  # if g.client is none, that means you haven't logged in, redirect to /index
   if request.args.get('error') == 'access_denied' or g.client is None:
     return redirect(url_for('login'))
 
   users = g.client.users.show.get(uid = g.uid)
+  #geo = g.client.place.user_timeline.get(uid="2199734770", count=1)
+  #json_geo = json.dumps(geo)
+  #print 'json_geo: ', json_geo
   json_users = json.dumps(users)
   dict_users = json.loads(json_users)
-  friends = g.client.friendships.friends.get(uid = g.uid, count = 10)
+  friends = g.client.friendships.friends.get(uid = g.uid, count = 5)
   dict_friends = json.loads(json.dumps(friends))
+
+  if request.method == 'POST':
+    uid = request.form['uid']
+    print 'uid: ', uid
+    geo = g.client.place.user_timeline.get(uid = uid, count = 1)
+    print geo
+    json_geo = json.loads(json.dumps(geo))
+    print 'geo: ', json_geo['statuses'][0]['geo']['coordinates']
+    #print 'geo: ', json_geo
+
+
+
+  #name = request.args.get('name')
+  #print 'name: ', name
+  #print dict_friends['users']
 
   form = SearchForm()
   return render_template('index.html', title = 'index', users = dict_users, friends = dict_friends['users'], form = form)

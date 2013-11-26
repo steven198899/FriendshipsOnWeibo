@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block map_script %}
+<script type="text/javascript" src="//code.jquery.com/jquery.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJwmHpMg1YXC1LFIS-UiJiyeb1m2n8UWk&sensor=false"></script>
 <script type="text/javascript">
 var shanghai = new google.maps.LatLng(31.20042, 121.47370);
@@ -41,6 +42,25 @@ function initialize() {
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
+
+$(document).ready(function() {
+    $('a.friend-inside').on('click', function() {
+      alert($(this).attr('id'));
+
+      $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: {
+          uid: $(this).attr('id'),
+        },
+        success: function(response) {
+          alert(response.message);
+        }
+        });
+      return false;
+      });
+
+    });
 </script>
 {% endblock %}
 
@@ -75,30 +95,21 @@ google.maps.event.addDomListener(window, 'load', initialize);
         </div>
       </div>
     </div>
-    <div class="module">
-      <div class="row2" style="height: 30px">
-        <div class="col-md-6 " style="height: 30px"></div>
-        <div class="col-md-3 " >
-          <div class="row" style="height: 7px"></div>
-          <a href=" " >prev</a>
-        </div>
-        <div class="col-md-3">
-          <div class="row" style="height: 7px"></div>
-          <a href=" " >next</a>
+    <div class="friend module">
+      <div class="row2 friend-header">
+        <strong class="friend-title">My friends</strong>
+        <div class="friends-navi">
+          <a href="#">prev</a>
+          <a href="#">next</a>
         </div>
       </div>
-      <div  class="row2">
+      <div class="row2 friends-container">
         {% for friend in friends %}
-        <div class="row friend-container topborder">
-          <div class="col-md-5 rightborder"  align="center">
-            <img class="small_logo" src={{friend['profile_image_url']}} >
-          </div>
-          <div class="col-md-7" >
-            <div class="row" style="height: 9px"></div>
-            <a href=" " target="_blank">
-              <b>{{friend['name']}} </b>
-            </a>
-          </div>
+        <div class="row friend-item">
+          <a href="#" class="friend-inside" id={{friend['id']}}>
+            <img class="small-logo" src={{friend['profile_image_url']}} >
+            <span class="friend-name">{{friend['name']}}</span>
+          </a>
         </div>
         {% endfor %}
       </div>

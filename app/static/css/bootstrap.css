@@ -6976,7 +6976,7 @@ img.small {
 
 .dashboard {
   float: left;
-  width: 280px;
+  width: 284px;
 }
 
 .module {
@@ -7038,21 +7038,23 @@ img.small {
   width: 100px;
   height: 100px;
 }
-.small_logo{
-  border-radius: 2px;
+.small-logo{
+  border-radius: 5px;
   /*text-align: center;*/
-  width: 30;
-  height: 30px;
 }
 
-.friend-container {
+.friend-item {
   margin: 0px;
-  /*padding: 16px;*/
-  padding-top: 2px;
-  padding-bottom: 2px;
-  font-size: 16px;
+  padding: 8px 0 6px 14px;
 }
 
+.friend-name {
+  padding-left: 6px;
+  margin-top: 10px;
+  vertical-align: top;
+  font-style: bold;
+  font-color: #000000;
+}
 
 .search-bar {
   padding-bottom: 20px;
@@ -7063,4 +7065,13 @@ img.small {
 #map-canvas {
   height: 410px;
   width: 572px;
+}
+
+.friend-header {
+  padding: 15px 14px 15px 14px;
+  font-size: 16px;
+}
+
+.friends-navi {
+  float: right;
 }
