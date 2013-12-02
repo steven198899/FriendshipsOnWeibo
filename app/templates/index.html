@@ -4,60 +4,208 @@
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJwmHpMg1YXC1LFIS-UiJiyeb1m2n8UWk&sensor=false"></script>
 <script type="text/javascript">
 var shanghai = new google.maps.LatLng(31.20042, 121.47370);
-var locations = [
-  ['我家', 31.15439, 121.45721],
-  ['徐家汇', 31.19250, 121.44000],
-  ['南京路', 31.23576, 121.48023],
-  ['东方明珠', 31.23729, 121.50063]
-];
-var marker, i;
+var markers = [];
 var map;
 var infoWindow = new google.maps.InfoWindow({
     width: 200
     });
+var markerBounds = new google.maps.LatLngBounds();
+var geocoder = new google.maps.Geocoder();
+var locationSearchResult = [];
+
+function addMarker(imgInfo) {
+  console.log(imgInfo);
+  var mLatLng = new google.maps.LatLng(imgInfo.location.latitude, imgInfo.location.longitude);
+  var marker = new google.maps.Marker({
+      position: mLatLng,
+      draggable: false,
+      animation: google.maps.Animation.DROP
+      });
+
+  google.maps.event.addListener(marker, 'click', (function(marker) {
+    return function() {
+      map.setCenter(marker.getPosition());
+      map.panBy(0, -140);
+      infoWindow.setContent('<img src="' + imgInfo.images.low_resolution.url + '">');
+      infoWindow.open(map, marker);
+    }
+  })(marker));
+
+  marker.setMap(map);
+  markerBounds.extend(mLatLng);
+  markers.push(marker);
+}
+
+function clearAllMarkers() {
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].setMap(null);
+  }
+  markerBounds = new google.maps.LatLngBounds();
+  locations = [];
+  markers = [];
+}
 
 function initialize() {
   var mapOptions = {
     zoom: 12,
     center: shanghai
   };
-
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-  for (i = 0; i < locations.length; i++) {
-    marker = new google.maps.Marker({
-        map: map,
-        draggable: false,
-        animation: google.maps.Animation.DROP,
-        position: new google.maps.LatLng(locations[i][1], locations[i][2])
-        });
-
-    google.maps.event.addListener(marker, 'click', (function(marker, i) {
-        return function() {
-          infoWindow.setContent(locations[i][0]);
-          infoWindow.open(map, marker);
-        }
-      })(marker, i));
-  }
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);
+function codeAddress(address) {
+  locationSearchResult = [];
+  geocoder.geocode( {'address': address}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        locationSearchResult.push(results[0].geometry.location.ob);
+        locationSearchResult.push(results[0].geometry.location.pb);
+        afterGotGeocode();
+      } else {
+        alert('cannot find location');
+      }
+    });
+}
+
+function afterGotGeocode() {
+  $.ajax({
+    type: "POST",
+    dataType: "json",
+    data: {
+      lat: locationSearchResult[0],
+      lng: locationSearchResult[1],
+    },
+    success: function(response) {
+      var count = response['count'];
+      if (count > 0) {
+        clearAllMarkers();
+        for (var i = 0; i < count; i++) {
+          addMarker(response[i]);
+        }
+        map.fitBounds(markerBounds);
+      }
+    }
+    });
+}
 
 $(document).ready(function() {
-    $('a.friend-inside').on('click', function() {
-      alert($(this).attr('id'));
+    {% if follows['follows'] %}
+    $('a.next').show();
+    $('span.prev-hide').show();
+    $('span.prev-hide').css('color', '#808080');
+    {% endif %}
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+    $('a.friend-inside').on('click', function(event) {
+      var uid = $(this).attr('id');
+      console.log(uid);
 
       $.ajax({
         type: "POST",
         dataType: "json",
         data: {
-          uid: $(this).attr('id'),
+          uid: uid,
         },
         success: function(response) {
-          alert(response.message);
+          var count = response['count'];
+          if (count > 0) {
+            clearAllMarkers();
+            for (var i = 0; i < count; i++) {
+              addMarker(response[i]);
+            }
+            map.fitBounds(markerBounds);
+          }
         }
         });
-      return false;
+
+      event.preventDefault();
+      });
+
+    $('#search-form').submit(function(event) {
+      var address = $('input:first').val();
+      codeAddress(address);
+      $('input:last').blur();
+      event.preventDefault();
+      });
+
+    $('a.next').on('click', function(event) {
+      console.log('click next');
+
+      $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: {
+          next: "true",
+        },
+        success: function(response) {
+          console.log(response);
+          $('a.prev').show();
+          $('span.prev-hide').hide();
+          if (!response['hasNext']) {
+            $('a.next').hide();
+            $('span.next-hide').show();
+            $('span.next-hide').css('color', '#808080');
+          }
+
+          var follows = response['follows'];
+          for (var i = 0; i < follows.length; i++) {
+            $('.friend-item').eq(i).show();
+            $('a.friend-inside').eq(i).attr('id', follows[i]['id']);
+            $('img.small-avatar').eq(i).attr('src', follows[i]['profile_picture']);
+            if (follows[i]['full_name'] != "") {
+              $('span.friend-name').eq(i).text(follows[i]['full_name']);
+            } else {
+              $('span.friend-name').eq(i).text(follows[i]['username']);
+            }
+          }
+          if (follows.length < 6) {
+            for (var i = follows.length - 1; i < 6; i++) {
+              $('.friend-item').eq(i).hide();
+            }
+          }
+        }
+        });
+
+      event.preventDefault();
+      });
+
+    $('a.prev').on('click', function(event) {
+      $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: {
+          prev: "true",
+        },
+        success: function(response) {
+          console.log(response);
+          $('a.next').show();
+          $('span.next-hide').hide();
+          if (!response['hasPrev']) {
+            $('a.prev').hide();
+            $('span.prev-hide').show();
+            $('span.prev-hide').css('color', '#808080');
+          }
+
+          var follows = response['follows'];
+          for (var i = 0; i < follows.length; i++) {
+            $('.friend-item').eq(i).show();
+            $('a.friend-inside').eq(i).attr('id', follows[i]['id']);
+            $('img.small-avatar').eq(i).attr('src', follows[i]['profile_picture']);
+            if (follows[i]['full_name'] != "") {
+              $('span.friend-name').eq(i).text(follows[i]['full_name']);
+            } else {
+              $('span.friend-name').eq(i).text(follows[i]['username']);
+            }
+          }
+          if (follows.length < 6) {
+            for (var i = follows.length - 1; i < 6; i++) {
+              $('.friend-item').eq(i).hide();
+            }
+          }
+        }
+        });
+
+      event.preventDefault();
       });
 
     });
@@ -70,27 +218,27 @@ $(document).ready(function() {
     <div class="profile module">
       <div class="row profile-container">
         <div class="col-md-6">
-          <img class="avatar" src={{users['avatar_large']}}>
+          <img class="avatar" src={{user['profile_picture']}}>
         </div>
         <div class="col-md-6">
           <div  class="row" style="height: 45px">
           </div>
           <div class="row" >
-            <b class="fullname" >{{users['screen_name']}}</b>
+            <b class="fullname" >{{user['full_name']}}</b>
           </div>
         </div>
       </div>
       <div class="row stats-container topborder">
         <div class="col-md-4 stats-item1">
-          <strong class="row stats-count">{{users['statuses_count']}}</strong>
+          <strong class="row stats-count">{{user['counts']['media']}}</strong>
           <div class="row stats-txt">Tweets</div>
         </div>
         <div class="col-md-4 stats-item2">
-          <strong class="row stats-count">{{users['friends_count']}}</strong>
-          <div class="row stats-txt">Following</div>
+          <strong class="row stats-count">{{user['counts']['follows']}}</strong>
+          <div class="row stats-txt">Follows</div>
         </div>
         <div class="col-md-4 stats-item3">
-          <strong class="row stats-count">{{users['followers_count']}}</strong>
+          <strong class="row stats-count">{{user['counts']['followed_by']}}</strong>
           <div class="row stats-txt">Followers</div>
         </div>
       </div>
@@ -99,16 +247,26 @@ $(document).ready(function() {
       <div class="row2 friend-header">
         <strong class="friend-title">My friends</strong>
         <div class="friends-navi">
-          <a href="#">prev</a>
-          <a href="#">next</a>
+          <div class="prev-friends">
+            <a href="#" class="prev">prev</a>
+            <span class="prev-hide">prev</span>
+          </div>
+          <div class="next-friends">
+            <a href="#" class="next">next</a>
+            <span class="next-hide">next</span>
+          </div>
         </div>
       </div>
       <div class="row2 friends-container">
-        {% for friend in friends %}
+        {% for follow in follows['follows'] %}
         <div class="row friend-item">
-          <a href="#" class="friend-inside" id={{friend['id']}}>
-            <img class="small-logo" src={{friend['profile_image_url']}} >
-            <span class="friend-name">{{friend['name']}}</span>
+          <a href="#" class="friend-inside" id={{follow['id']}}>
+            <img class="small-avatar" src={{follow['profile_picture']}} >
+            {% if follow['full_name'] != '' %}
+            <span class="friend-name">{{follow['full_name']}}</span>
+            {% else %}
+            <span class="friend-name">{{follow['username']}}</span>
+            {% endif %}
           </a>
         </div>
         {% endfor %}
@@ -119,16 +277,11 @@ $(document).ready(function() {
   <div class="content-main module">
     <div class="search-bar">
       <h3 class="search-form">Please input the user_id you want to search!</h3>
-      <form class="search-form" name="search" action="" method="post" style="padding-top:30px">
-        {{form.hidden_tag()}}
+      <form class="search-form" id="search-form" action="#" method="post" style="padding-top:30px">
         <div class="search_form_inside">
           <p>
-          {{form.searchName(size=46)}}
+          <input class="input-text" type="text" />
           <input class="btn btn-primary btn-default " type="submit" value="Search" />
-          {% for error in form.errors.searchName %}
-          <br/>
-          <span style="color: red;">[{{error}}]</span>
-          {% endfor %}
           </p>
         </div>
       </form>
@@ -139,3 +292,4 @@ $(document).ready(function() {
   </div>
 </div>
 {% endblock %}
+

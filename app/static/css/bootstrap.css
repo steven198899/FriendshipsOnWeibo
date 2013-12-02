@@ -6965,9 +6965,13 @@ img.small {
 /*
  * By Chao
  */
+.container {
+  padding: 0px;
+}
+
 .page-container {
-  width: 920px;
-  height: 640px;
+  width: 960px;
+  height: 690px;
   padding: 20px;
   background: url("https://abs.twimg.com/a/1385011337/t1/img/wash-white-30.png") repeat scroll 0% 0% transparent;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -6976,7 +6980,7 @@ img.small {
 
 .dashboard {
   float: left;
-  width: 284px;
+  width: 244px;
 }
 
 .module {
@@ -6992,11 +6996,11 @@ img.small {
 .content-main {
   float: right;
   text-align: center;
-  width: 574px;
+  width: 654px;
 }
 
 .profile-container {
-  padding: 16px;
+  padding: 12px;
   /*border-bottom: 1px solid rgba(0, 0, 0, 0.3);*/
 }
 
@@ -7009,9 +7013,9 @@ img.small {
 .stats-container {
   margin: 0px;
   /*padding: 16px;*/
-  padding-top: 16px;
-  padding-bottom: 16px;
-  font-size: 16px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  font-size: 13px;
 }
 
 .stats-count {
@@ -7035,17 +7039,20 @@ img.small {
 
 .avatar {
   border-radius: 5px;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: auto;
 }
-.small-logo{
+
+.small-avatar{
   border-radius: 5px;
+  width: 60px;
+  height: auto;
   /*text-align: center;*/
 }
 
 .friend-item {
   margin: 0px;
-  padding: 8px 0 6px 14px;
+  padding: 0px 0 12px 14px;
 }
 
 .friend-name {
@@ -7063,8 +7070,8 @@ img.small {
 }
 
 #map-canvas {
-  height: 410px;
-  width: 572px;
+  height: 460px;
+  width: 652px;
 }
 
 .friend-header {
@@ -7073,5 +7080,33 @@ img.small {
 }
 
 .friends-navi {
+  display: inline-block;
+  width: 70px;
   float: right;
+}
+
+.prev-friends {
+  display: inline-block;
+  float: left;
+}
+
+.next-friends {
+  display: inline-block;
+  float: right;
+}
+
+a.prev {
+  display: none;
+}
+
+a.next {
+  display: none;
+}
+
+span.prev-hide {
+  display: none;
+}
+
+span.next-hide {
+  display: none;
 }
