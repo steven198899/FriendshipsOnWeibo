@@ -38,8 +38,8 @@ def index():
   if request.method == 'POST':
     if 'uid' in request.form:
       uid = request.form['uid']
-      print 'uid: ', uid
-      medias, next = g.api.user_recent_media(user_id = uid, count = 5)
+      #print 'uid: ', uid
+      medias, next = g.api.user_recent_media(user_id = uid, count = 10)
       return generateJsonMedias(medias)
     elif 'lat' in request.form:
       lat = request.form['lat']
