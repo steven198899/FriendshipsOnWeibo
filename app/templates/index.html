@@ -43,6 +43,7 @@ function addMarker(imgInfo) {
       	'<b class="author-name">' + name + '</span>'
       	'</div>' +
       	'</div>';
+      console.log(contentString);
       infoWindow.setContent(contentString);
       infoWindow.open(map, marker);
     }
@@ -120,6 +121,7 @@ function afterGotGeocode(range, num) {
       num: num,
     },
     success: function(response) {
+      console.log(response);
       var count = response['count'];
       if (count > 0) {
         clearAllMarkers();
@@ -194,9 +196,9 @@ $(document).ready(function() {
       var address = $('input.place').val();
       var range = $('input.range').val();
       var num = $('input.number').val();
-/*       console.log(address); */
-/*       console.log(range); */
-/*       console.log(num); */
+       // console.log(address); 
+       // console.log(range); 
+       // console.log(num); 
       codeAddress(address, range, num);
       $('input:last').blur();
       event.preventDefault();
@@ -302,11 +304,11 @@ $(document).ready(function() {
       <div class="row stats-container topborder">
         <div class="col-md-4 stats-item1">
           <strong class="row stats-count">{{user['counts']['media']}}</strong>
-          <div class="row stats-txt">Tweets</div>
+          <div class="row stats-txt">Posts</div>
         </div>
         <div class="col-md-4 stats-item2">
           <strong class="row stats-count">{{user['counts']['follows']}}</strong>
-          <div class="row stats-txt">Follows</div>
+          <div class="row stats-txt">Following</div>
         </div>
         <div class="col-md-4 stats-item3">
           <strong class="row stats-count">{{user['counts']['followed_by']}}</strong>
