@@ -68,9 +68,27 @@ function initialize() {
     center: shanghai
   };
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-  google.maps.event.addListener(map, 'click', function() { 
+  $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: {
+          uid: {{uid}},
+        },
+        success: function(response) {
+          var count = response['count'];
+          if (count > 0) {
+            clearAllMarkers();
+            for (var i = 0; i < count; i++) {
+              addMarker(response[i]);
+            }
+            map.fitBounds(markerBounds);
+          }
+        }
+        });
+
+  google.maps.event.addListener(map, 'click', function() {
     	if (infoWindow) {
-    		infoWindow.close(); 
+    		infoWindow.close();
     	}
 	});
 }
@@ -147,25 +165,25 @@ $(document).ready(function() {
 
       event.preventDefault();
       });
-      
+
     $('input.place').focus(function() {
-	   $(this).val(''); 
+	   $(this).val('');
     });
-    
+
     $('input.range').focus(function() {
-	   $(this).val(''); 
+	   $(this).val('');
     });
-    
+
     $('input.number').focus(function() {
-	   $(this).val(''); 
+	   $(this).val('');
     });
-    
+
     $('input.range').blur(function() {
     	if ($(this).val() == '') {
 			$(this).val('1000');
 		}
     });
-       
+
     $('input.number').blur(function() {
     	if ($(this).val() == '') {
 			$(this).val('10');
