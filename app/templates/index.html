@@ -14,7 +14,7 @@ var geocoder = new google.maps.Geocoder();
 var locationSearchResult = [];
 
 function addMarker(imgInfo) {
-  console.log(imgInfo);
+  <!--console.log(imgInfo);-->
   var mLatLng = new google.maps.LatLng(imgInfo.location.latitude, imgInfo.location.longitude);
   var marker = new google.maps.Marker({
       position: mLatLng,
@@ -53,26 +53,31 @@ function initialize() {
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 }
 
-function codeAddress(address) {
+function codeAddress(address, range, num) {
   locationSearchResult = [];
   geocoder.geocode( {'address': address}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
-        locationSearchResult.push(results[0].geometry.location.ob);
+/*         console.log(results); */
         locationSearchResult.push(results[0].geometry.location.pb);
-        afterGotGeocode();
+        locationSearchResult.push(results[0].geometry.location.qb);
+/*         console.log(locationSearchResult[0]); */
+/*         console.log(locationSearchResult[1]); */
+        afterGotGeocode(range, num);
       } else {
         alert('cannot find location');
       }
     });
 }
 
-function afterGotGeocode() {
+function afterGotGeocode(range, num) {
   $.ajax({
     type: "POST",
     dataType: "json",
     data: {
       lat: locationSearchResult[0],
       lng: locationSearchResult[1],
+      range: range,
+      num: num,
     },
     success: function(response) {
       var count = response['count'];
@@ -91,14 +96,14 @@ $(document).ready(function() {
     {% if follows['follows'] %}
     $('a.next').show();
     $('span.prev-hide').show();
-    $('span.prev-hide').css('color', '#808080');
+    $('span.prev-hide').css('color', '#444444');
     {% endif %}
 
     google.maps.event.addDomListener(window, 'load', initialize);
 
     $('a.friend-inside').on('click', function(event) {
       var uid = $(this).attr('id');
-      console.log(uid);
+      <!--console.log(uid);-->
 
       $.ajax({
         type: "POST",
@@ -120,16 +125,44 @@ $(document).ready(function() {
 
       event.preventDefault();
       });
+      
+    $('input.place').focus(function() {
+	   $(this).val(''); 
+    });
+    
+    $('input.range').focus(function() {
+	   $(this).val(''); 
+    });
+    
+    $('input.number').focus(function() {
+	   $(this).val(''); 
+    });
+    
+    $('input.range').blur(function() {
+    	if ($(this).val() == '') {
+			$(this).val('1000');
+		}
+    });
+       
+    $('input.number').blur(function() {
+    	if ($(this).val() == '') {
+			$(this).val('10');
+		}
+    });
 
     $('#search-form').submit(function(event) {
-      var address = $('input:first').val();
-      codeAddress(address);
+      var address = $('input.place').val();
+      var range = $('input.range').val();
+      var num = $('input.number').val();
+/*       console.log(address); */
+/*       console.log(range); */
+/*       console.log(num); */
+      codeAddress(address, range, num);
       $('input:last').blur();
       event.preventDefault();
       });
 
     $('a.next').on('click', function(event) {
-      console.log('click next');
 
       $.ajax({
         type: "POST",
@@ -138,13 +171,13 @@ $(document).ready(function() {
           next: "true",
         },
         success: function(response) {
-          console.log(response);
+          <!--console.log(response);-->
           $('a.prev').show();
           $('span.prev-hide').hide();
           if (!response['hasNext']) {
             $('a.next').hide();
             $('span.next-hide').show();
-            $('span.next-hide').css('color', '#808080');
+            $('span.next-hide').css('color', '#444444');
           }
 
           var follows = response['follows'];
@@ -177,7 +210,7 @@ $(document).ready(function() {
           prev: "true",
         },
         success: function(response) {
-          console.log(response);
+          <!--console.log(response);-->
           $('a.next').show();
           $('span.next-hide').hide();
           if (!response['hasPrev']) {
@@ -221,8 +254,6 @@ $(document).ready(function() {
           <img class="avatar" src={{user['profile_picture']}}>
         </div>
         <div class="col-md-6">
-          <div  class="row" style="height: 45px">
-          </div>
           <div class="row" >
             <b class="fullname" >{{user['full_name']}}</b>
           </div>
@@ -278,17 +309,20 @@ $(document).ready(function() {
     <div class="search-bar">
       <h3 class="search-form">Please input the user_id you want to search!</h3>
       <form class="search-form" id="search-form" action="#" method="post" style="padding-top:30px">
-        <div class="search_form_inside">
-          <p>
-          <input class="input-text" type="text" />
+        <div class="form-group">
+          <label for="place">Place:</label>
+		  <input type="text" class="place form-control" id="place" placeholder="Enter a place">
+		  <label for="range">Range:</label>
+		  <input type="text" class="range form-control" id="Range" placeholder="Range" value="1000">
+		  <label for="number">#:</label>
+		  <input type="text" class="number form-control" id="number" placeholder="# of pics" value="10">
           <input class="btn btn-primary btn-default " type="submit" value="Search" />
-          </p>
         </div>
       </form>
     </div>
 
     <div class="map-content topborder" id="map-canvas"></div>
-    <div class="topborder" style="height: 30px"></div>
+    <div class="topborder" style="height: 16px"></div>
   </div>
 </div>
 {% endblock %}

@@ -4495,7 +4495,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse .navbar-brand {
-  color: #999999;
+  color: #ffffff;
 }
 
 .navbar-inverse .navbar-brand:hover,
@@ -4509,7 +4509,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse .navbar-nav > li > a {
-  color: #999999;
+  color: #cdbfe3;
 }
 
 .navbar-inverse .navbar-nav > li > a:hover,
@@ -6972,7 +6972,7 @@ img.small {
 .page-container {
   width: 960px;
   height: 690px;
-  padding: 20px;
+  padding: 14px;
   background: url("https://abs.twimg.com/a/1385011337/t1/img/wash-white-30.png") repeat scroll 0% 0% transparent;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
@@ -6984,19 +6984,18 @@ img.small {
 }
 
 .module {
-  text-shadow: 0px 1px 0px rgb(255, 255, 255);
   border: 1px solid rgba(0, 0, 0, 0.1);
   line-height: 16px;
   border-radius: 6px;
   background-clip: padding-box;
   background-color: rgb(249, 249, 249);
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
 .content-main {
   float: right;
   text-align: center;
-  width: 654px;
+  width: 672px;
 }
 
 .profile-container {
@@ -7052,7 +7051,7 @@ img.small {
 
 .friend-item {
   margin: 0px;
-  padding: 0px 0 12px 14px;
+  padding: 0px 0 15px 14px;
 }
 
 .friend-name {
@@ -7064,24 +7063,24 @@ img.small {
 }
 
 .search-bar {
-  padding-bottom: 20px;
+  padding-bottom: 10px;
   padding-top: 10px;
   display: inline-block;
 }
 
 #map-canvas {
-  height: 460px;
-  width: 652px;
+  height: 484px;
+  width: 670px;
 }
 
 .friend-header {
-  padding: 15px 14px 15px 14px;
-  font-size: 16px;
+  padding: 14px 14px 15px 14px;
+  font-size: 18px;
 }
 
 .friends-navi {
   display: inline-block;
-  width: 70px;
+  width: 78px;
   float: right;
 }
 
@@ -7109,4 +7108,31 @@ span.prev-hide {
 
 span.next-hide {
   display: none;
+}
+
+span.friend-name {
+  display: inline-block;
+  font-size: 16px;
+}
+
+.fullname {
+  display: inline-block;
+  margin-left: -10px;
+  padding-top: 18px;
+}
+
+.place {
+	width: 180px;
+}
+
+.range {
+	width: 80px;
+}
+
+.number {
+	width: 80px;
+}
+
+.form-control {
+	display: inline-block;
 }

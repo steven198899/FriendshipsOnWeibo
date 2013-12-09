@@ -44,7 +44,9 @@ def index():
     elif 'lat' in request.form:
       lat = request.form['lat']
       lng = request.form['lng']
-      return generateLocationMedias(lat, lng, 14)
+      radius = request.form['range']
+      num = request.form['num']
+      return generateLocationMedias(lat, lng, radius, num)
     elif 'next' in request.form:
       # generate next follows page
       friends_cursor_list = session['friends_cursor_list']
@@ -103,9 +105,10 @@ def addFlagToFollows(follows, has_next, has_prev):
   json_follows['hasPrev'] = has_prev
   return json_follows
 
-def generateLocationMedias(lat, lng, count):
+def generateLocationMedias(lat, lng, radius, count):
+  #print radius
   json_response = {}
-  medias = g.api.media_search(q = 5000, count = count, lat = lat, lng = lng)
+  medias = g.api.media_search(distance = radius, count = count, lat = lat, lng = lng)
   i = 0
   for media in medias:
     json_response[i] = media

@@ -2,7 +2,7 @@ import oauth2
 from bind import bind_method
 
 MEDIA_ACCEPT_PARAMETERS = ["count", "max_id"]
-SEARCH_ACCEPT_PARAMETERS = ["q", "count"]
+SEARCH_ACCEPT_PARAMETERS = ["distance", "count"]
 
 #SUPPORTED_FORMATS = ['json']
 
@@ -27,7 +27,7 @@ class InstagramAPI(oauth2.OAuth2API):
 
     media_search = bind_method(
         path="/media/search",
-        accepts_parameters=SEARCH_ACCEPT_PARAMETERS + ['lat', 'lng', 'min_timestamp', 'max_timestamp'])
+        accepts_parameters=SEARCH_ACCEPT_PARAMETERS + ['lat', 'lng', 'min_timestamp', 'max_timestamp', 'radius'])
 
     media_likes = bind_method(
         path="/media/{media_id}/likes",
