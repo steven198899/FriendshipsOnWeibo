@@ -57,6 +57,7 @@ def index():
       return json.dumps(generateFollows(friends_cursor_list, False))
 
   friends_cursor_list = []
+  print 'user id: ', g.user['id']
   user = g.api.user(user_id = g.user['id'])
   follows = generateFollows(friends_cursor_list, True, 6)
 
