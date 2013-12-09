@@ -7062,19 +7062,27 @@ img.small {
   font-color: #000000;
 }
 
+.friend-inside:hover {
+	text-decoration: none;
+}
+
 .search-bar {
   padding-bottom: 10px;
   padding-top: 10px;
   display: inline-block;
 }
 
+.search-form {
+	padding-top: 16px;
+}
+
 #map-canvas {
-  height: 484px;
+  height: 500px;
   width: 670px;
 }
 
 .friend-header {
-  padding: 14px 14px 15px 14px;
+  padding: 12px 14px 15px 14px;
   font-size: 18px;
 }
 
@@ -7098,8 +7106,12 @@ a.prev {
   display: none;
 }
 
+a.prev:hover {
+  text-decoration: none;
+}
+
 a.next {
-  display: none;
+  text-decoration: none;
 }
 
 span.prev-hide {
@@ -7135,4 +7147,35 @@ span.friend-name {
 
 .form-control {
 	display: inline-block;
+}
+
+.image-content {
+	display: block;
+	margin: 0px;
+	padding: 0px;
+}
+
+.image-real {
+	border-radius: 10px;
+}
+
+.image-info {
+	padding-top: 8px;
+}
+
+.author-avatar {
+	float: left;
+	display: inline-block;
+	width: 50px;
+	height: auto;
+	border-radius: 4px;
+}
+
+.author-name {
+	display: inline-block;
+	float: left;
+	padding: 2px 0px 0px 10px;
+	font-size: 14px;
+	color: black;
+	font-weight: 400;
 }

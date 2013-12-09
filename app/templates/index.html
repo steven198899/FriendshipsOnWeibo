@@ -7,7 +7,8 @@ var shanghai = new google.maps.LatLng(31.20042, 121.47370);
 var markers = [];
 var map;
 var infoWindow = new google.maps.InfoWindow({
-    width: 200
+	disableAutoPan: true,
+    maxWidth: 360
     });
 var markerBounds = new google.maps.LatLngBounds();
 var geocoder = new google.maps.Geocoder();
@@ -25,8 +26,24 @@ function addMarker(imgInfo) {
   google.maps.event.addListener(marker, 'click', (function(marker) {
     return function() {
       map.setCenter(marker.getPosition());
-      map.panBy(0, -140);
-      infoWindow.setContent('<img src="' + imgInfo.images.low_resolution.url + '">');
+      map.panBy(0, -200);
+/*       console.log(imgInfo); */
+      var name = null;
+      if (imgInfo.user.full_name != "🆖") {
+	      name = imgInfo.user.full_name;
+      } else {
+	      name = imgInfo.user.username;
+      }
+      var contentString = '<div class="image-content">' +
+      	'<div class="image">' +
+      	'<img class="image-real" src="' + imgInfo.images.low_resolution.url + '">' +
+      	'</div>' +
+      	'<div class="image-info">' +
+      	'<img class="author-avatar" src="' + imgInfo.user.profile_picture + '">' +
+      	'<b class="author-name">' + name + '</span>'
+      	'</div>' +
+      	'</div>';
+      infoWindow.setContent(contentString);
       infoWindow.open(map, marker);
     }
   })(marker));
@@ -51,6 +68,11 @@ function initialize() {
     center: shanghai
   };
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  google.maps.event.addListener(map, 'click', function() { 
+    	if (infoWindow) {
+    		infoWindow.close(); 
+    	}
+	});
 }
 
 function codeAddress(address, range, num) {
@@ -307,8 +329,8 @@ $(document).ready(function() {
 
   <div class="content-main module">
     <div class="search-bar">
-      <h3 class="search-form">Please input the user_id you want to search!</h3>
-      <form class="search-form" id="search-form" action="#" method="post" style="padding-top:30px">
+      <h3>Search the insta images in a place</h3>
+      <form class="search-form" id="search-form" action="#" method="post">
         <div class="form-group">
           <label for="place">Place:</label>
 		  <input type="text" class="place form-control" id="place" placeholder="Enter a place">

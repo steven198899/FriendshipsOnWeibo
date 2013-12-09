@@ -89,7 +89,7 @@ def bind_method(**config):
             self.path = self.path + '.%s' % self.api.format
 
         def _do_api_request(self, url, method="GET", body=None, headers=None):
-            print url
+            #print url
             headers = headers or {}
             response, content = OAuth2Request(self.api).make_request(url, method=method, body=body, headers=headers)
             if response['status'] == '503':
