@@ -98,11 +98,11 @@ function codeAddress(address, range, num) {
   locationSearchResult = [];
   geocoder.geocode( {'address': address}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
-/*         console.log(results); */
-        locationSearchResult.push(results[0].geometry.location.pb);
-        locationSearchResult.push(results[0].geometry.location.qb);
-/*         console.log(locationSearchResult[0]); */
-/*         console.log(locationSearchResult[1]); */
+        <!--console.log(results);-->
+        locationSearchResult.push(results[0].geometry.location.lat());
+        locationSearchResult.push(results[0].geometry.location.lng());
+        <!--console.log(locationSearchResult[0]);-->
+        <!--console.log(locationSearchResult[1]);-->
         afterGotGeocode(range, num);
       } else {
         alert('cannot find location');
@@ -196,9 +196,9 @@ $(document).ready(function() {
       var address = $('input.place').val();
       var range = $('input.range').val();
       var num = $('input.number').val();
-       // console.log(address); 
-       // console.log(range); 
-       // console.log(num); 
+       // console.log(address);
+       // console.log(range);
+       // console.log(num);
       codeAddress(address, range, num);
       $('input:last').blur();
       event.preventDefault();
